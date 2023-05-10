@@ -1,0 +1,54 @@
+
+### 登录 注册 测试
+
+POST http://localhost:6321/api/note/auth/login
+Content-Type: application/json
+
+{
+  "username": "666",
+  "password": "666"
+}
+
+
+###
+POST http://localhost:6321/api/note/auth/register
+Content-Type: application/json
+
+{
+  "username": "667",
+  "password": "666"
+}
+
+
+
+###
+POST http://localhost:6321/api/note/index
+Content-Type: application/json
+
+{
+  "uid": 1
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

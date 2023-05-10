@@ -1,0 +1,83 @@
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dygticky.cnoteserver.mapper.NoteMapper">
+
+
+    <resultMap id="noteMap" type="com.dygticky.cnoteserver.model.Note">
+        <id column="db_id" property="dbId"/>
+        <result column="id" property="id"/>
+        <result column="uid" property="uid"/>
+        <result column="title" property="title"/>
+        <result column="category" property="category"/>
+        <result column="content" property="content"/>
+        <result column="create_date" property="createDate"/>
+        <result column="last_update" property="lastUpdate"/>
+        <result column="is_marked" property="marked"/>
+        <result column="note_status" property="status"/>
+    </resultMap>
+
+
+    <select id="getFullIndex" resultType="com.dygticky.cnoteserver.model.Note" resultMap="noteMap">
+        select uid, id, last_update
+        from note
+        where uid = #{uid}
+    </select>
+
+
+    <insert id="insertNotes" parameterType="java.util.List">
+        insert into note(id, uid, title, category, content,
+        create_date, last_update, is_marked, status) values
+        <foreach collection="list" item="item" separator=",">
+            (#{item.id}, #{uid}, #{item.title}, #{item.category}, #{item.content}, #{item.createDate},
+            #{item.lastUpdate}, #{item.marked}, #{item.status})
+        </foreach>
+    </insert>
+
+
+    <delete id="deleteNotes" parameterType="java.util.List">
+        delete from note where id in
+        <foreach collection="list" item="id" open="(" close=")" separator=",">
+            #{id}
+        </foreach>
+        and uid = #{uid}
+    </delete>
+
+
+    <select id="getNeededNotes" resultType="Note"  resultMap="noteMap">
+        select *
+        from note where id in
+        <foreach collection="list" item="id" open="(" close=")" separator=",">
+            #{id}
+        </foreach>
+        and uid = #{uid}
+    </select>
+
+
+    <update id="updateNotes" parameterType="java.util.List">
+        <foreach collection="list" item="item" separator=";">
+            UPDATE note
+            <set>
+                <if test="item.title != null">title = #{item.title},</if>
+                <if test="item.category != null">category = #{item.category},</if>
+                <if test="item.content != null">content = #{item.content},</if>
+                <if test="item.createDate != null">create_date = #{item.createDate},</if>
+                <if test="item.lastUpdate != null">last_update = #{item.lastUpdate},</if>
+                <if test="item.marked != null">is_marked = #{item.marked},</if>
+                <if test="item.status != null">status = #{item.status},</if>
+                uid = #{uid}
+            </set>
+            WHERE id = #{item.id}
+            and uid = #{uid}
+        </foreach>
+    </update>
+
+    <select id="queryByIdWithUid" resultType="com.dygticky.cnoteserver.model.Note"  resultMap="noteMap">
+        select *
+        from note
+        where uid = #{uid}
+          and id = #{id};
+    </select>
+
+
+</mapper>

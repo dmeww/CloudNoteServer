@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="${note.getTitle()}"></title>
+    <link href="https://unpkg.com/md-editor-v3@2.11.2/lib/style.css" rel="stylesheet"/>
+    <script src="https://unpkg.com/vue@3.2.47/dist/vue.global.prod.js"></script>
+    <script src="https://unpkg.com/md-editor-v3@2.11.2/lib/md-editor-v3.umd.js"></script>
+
+
+</head>
+
+<body>
+<div id="app" class="app">
+    <md-editor-v3 v-model="text"
+                  :preview-only="true"
+                  preview-theme="mk-cute"
+                  :showCodeRowNumber="true"
+                  :code-theme="paraiso"
+    ></md-editor-v3>
+</div>
+
+<script th:inline="javascript">
+    var name = [[${note.content}]];
+    console.log(name);
+    const App = {
+        created() {
+            this.text = name
+        },
+        data() {
+            return {
+                text: '',
+            };
+        }
+    };
+    Vue.createApp(App).use(MdEditorV3).mount('#app');
+
+</script>
+<style>
+
+    .md-editor-input-wrapper {
+        font-size: 23px;
+    }
+
+    a {
+        font-size: 1.7em;
+    }
+
+    p {
+        font-size: 1.2em;
+    }
+
+    input[type="checkbox"] {
+        transform: scale(1.3);
+    }
+
+    .li-task {
+        font-size: 1.3em;
+    }
+
+    #md-editor-v3-preview {
+        min-height: 100vh;
+    }
+
+</style>
+</body>
+
+</html>
