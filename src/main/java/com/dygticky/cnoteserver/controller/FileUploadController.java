@@ -27,8 +27,7 @@ public class FileUploadController {
     private String uploadDir;
 
 
-        private String address = "121.37.185.55";
-//    private String address = "100.111.172.93";
+   private String address = "100.111.172.93";
 
     static List<String> availableNames = List.of(".jpg", ".jpeg", ".png", ".gif");
 
